@@ -14,15 +14,15 @@
             {% endif %}
             <form action="" method="POST">
                 {% csrf_token %}
-                {% for field in form %}
+                
                 <div class="form-group">
-                    {{ field.errors }}
-                    {{ field.label_tag }}
-                    {{ field }}
+                    {{ pollform.as_p }}
+                    {{ choiceform.as_p }}
+                    {{ choiceform2.as_p }}
                 </div>
-                {% endfor %}
+                
                 <button type="submit" class="btn btn-primary">Add Poll</button>
-                <a class="btn btn-warning" href="{% url 'polls:list' %}" role="button">Back</a>
+                <a class="btn btn-warning" href="{% url 'poll:poll' %}" role="button">Back</a>
             </form>
         </div>
     </div>

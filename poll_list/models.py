@@ -6,7 +6,7 @@ class Poll(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.TextField()
     pub_date = models.DateTimeField(default=timezone.now)
-    active = models.BooleanField()
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.subject
