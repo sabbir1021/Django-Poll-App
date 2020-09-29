@@ -13,3 +13,6 @@ class AddChoiceForm(forms.ModelForm):
         fields = [
             'choice_option',
         ]
+
+class SearchForm(forms.Form):
+    search = forms.CharField(required=False)

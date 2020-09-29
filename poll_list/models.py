@@ -8,11 +8,13 @@ class Poll(models.Model):
     pub_date = models.DateTimeField(default=timezone.now)
     active = models.BooleanField(default=True)
 
+    
+
     def __str__(self):
         return self.subject
 
 class Choice(models.Model):
-    poll = models.ForeignKey(Poll, on_delete=models.CASCADE,related_name='choise')
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE,related_name='choises')
     choice_option = models.CharField(max_length=50)
 
     def __str__(self):

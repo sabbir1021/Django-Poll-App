@@ -20,25 +20,25 @@
             {% endif %}
             <form action="" method="POST">
                 {% csrf_token %}
-                {% for field in form %}
+                
                 <div class="form-group">
-                    {{ field.errors }}
-                    {{ field.label_tag }}
-                    {{ field }}
+                    {{form.as_p}}
                 </div>
-                {% endfor %}
+                
                 <button type="submit" class="btn btn-primary">Update</button>
-                <a class="btn btn-danger" href="{% url 'polls:delete_poll' poll.id %}" role="button" onclick="return confirm('Are you sure?')">Delete</a>
-                <a class="btn btn-warning" href="{% url 'polls:add_choice' poll.id %}" role="button">Add Choice</a>
+                <a class="btn btn-danger" href="{% url 'poll:deletepoll' id=poll.id %}" role="button" onclick="return confirm('Are you sure?')">Delete</a>
+                <a class="btn btn-warning" href="{% url 'poll:addchoice' id=poll.id %}" role="button">Add Choice</a>
             </form>
 
             <div class="choices">
                 <h2 class="text-center mt-3">Choices</h2>
                 <hr>
                 <ul class="list-group">
-                    {% for choice in poll.choice_set.all %}
-                    <li class="list-group-item"><a href="{% url 'polls:choice_edit' choice.id %}"><i class="fas fa-pencil-alt"></i></a>&nbsp
-                        {{ choice.choice_text }}</li>
+                    {% comment %} {% for choice in poll.choice_set.all %} {% endcomment %}
+                    {% comment %} {% for choice in poll.choise.all %} {% endcomment %}
+                    {% for cho in poll.choises.all %}
+                    <li class="list-group-item"><a href="{% url 'poll:editchoice' id=poll.id  cid=cho.id %}"><i class="fas fa-pencil-alt"></i></a>&nbsp
+                        {{ cho.choice_option }}</li>
                     {% endfor %}
                 </ul>
             </div>
