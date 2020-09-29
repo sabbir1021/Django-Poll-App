@@ -1,5 +1,5 @@
 from django.shortcuts import render , redirect , get_object_or_404
-from .models import Poll , Choice
+from .models import Poll , Choice ,Vote
 from django.views import View, generic
 from django.contrib.auth.models import User
 from .forms import AddPollForm , AddChoiceForm , SearchForm
@@ -162,3 +162,39 @@ class DeleteChoiceView(View):
         instance = choice
         instance.delete()
         return redirect('poll:poll')
+
+class PollDetailsView(View):
+    def get(self, request, *args, **kwargs):
+        poll = get_object_or_404(Poll, id=self.request.resolver_match.kwargs['id'])
+        context = {
+            'poll':poll,
+        }
+        return render(request, 'polls/poll_detail.html', context)
+    def post(self, request, *args, **kwargs):
+        poll = get_object_or_404(Poll, id=self.request.resolver_match.kwargs['id'])
+        choice_id = request.POST.get('choice')
+        if not poll.user_can_vote(request.user):
+            messages.error(
+                request, "You already voted this poll", extra_tags='alert alert-warning alert-dismissible fade show')
+            return redirect("poll:poll")
+        if choice_id:
+            choice = Choice.objects.get(id=choice_id)
+            vote = Vote(user=request.user, poll=poll, choice=choice)
+            vote.save()
+            return redirect('poll:result',id=poll.id)
+
+
+class ResultView(View):
+    def get(self, request, *args, **kwargs):
+        poll = get_object_or_404(Poll, id=self.request.resolver_match.kwargs['id'])
+        vot = Vote.objects.filter(poll__id=self.request.resolver_match.kwargs['id'])
+        vote_count = Vote.objects.filter(poll__id=self.request.resolver_match.kwargs['id']).count()
+        choice = Choice.objects.filter(poll__id=self.request.resolver_match.kwargs['id'])
+        
+        context = {
+            'poll':poll,
+            'vot':vot,
+            'vote_count':vote_count,
+            'choice':choice
+        }
+        return render(request , "polls/poll_result.html",context)

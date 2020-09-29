@@ -37,11 +37,16 @@
 
             <ul class="list-group">
                 {% for poll in polls %}
-                <li class="list-group-item"><a href="">{{ poll.subject|truncatewords:6 }}
-                        {% if not poll.active%}
-                        <i class="fas fa-check-circle ml-2"></i>
-                        {% endif %}
-                    </a>
+                <li class="list-group-item">
+                    {% if poll.active%}
+                        <a href="{% url 'poll:polldetails' id=poll.id %}">{{ poll.subject|truncatewords:6 }}  </a>
+                    {% else %}
+                        <a href="{% url 'poll:result' id=poll.id %}">{{ poll.subject|truncatewords:6 }}  </a>
+                        <i class="fas fa-check-circle ml-5 mr-2"></i>Vote End
+                    {% endif %}
+                    
+                    <a href="{% url 'poll:result' id=poll.id %}" class="mr-3 ml-3 float-right btn btn-primary btn-sm" style="margin-top: -4px;" data-toggle="tooltip" data-placement="top"
+                        title="Edit Poll">Result</a>
                     {% if request.user == poll.owner %}
                     {% if poll.active %}
                     <a href="{% url 'poll:pollend' id=poll.id %}" data-toggle="tooltip" data-placement="top" title="End Poll"

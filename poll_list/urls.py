@@ -12,4 +12,7 @@ urlpatterns = [
     path('add-choice/<int:id>', views.AddChoiceView.as_view() , name = "addchoice"),
     path('edit-choice/<int:id>/<int:cid>', views.EditChoiceView.as_view() , name = "editchoice"),
     path('delete-choice/<int:id>/<int:cid>', views.DeleteChoiceView.as_view() , name = "deletechoice"),
+    path('<int:id>', views.PollDetailsView.as_view() , name = "polldetails"),
+    path('Result/<int:id>', views.ResultView.as_view() , name = "result"),
+
 ]

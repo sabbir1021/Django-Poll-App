@@ -16,16 +16,16 @@
     </div>
     {% endif %}
     <hr>
-    <h2 class="mt-3 mb-3">{{ poll }}</h2>
-    <form action="{% url 'polls:vote' poll.id %}" method="POST">
+    <h2 class="mt-3 mb-3">{{ poll.subject }}</h2>
+    <form action="" method="POST">
         {% csrf_token %}
-        {% for choice in poll.choice_set.all %}
-        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}">
-        <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label>
+        {% for cho in poll.choises.all %}
+        <input type="radio" name="choice"  value="{{ cho.id }}">
+        <label >{{ cho.choice_option }}</label>
         <br>
         {% endfor %}
         <input type="submit" value="Vote" class="btn btn-primary mt-3">
-        <a class="btn btn-warning mt-3" href="{% url 'polls:list' %}" role="button">Cancel</a>
+        <a class="btn btn-warning mt-3" href="{% url 'poll:poll' %}" role="button">Cancel</a>
     </form>
 
 </div>
